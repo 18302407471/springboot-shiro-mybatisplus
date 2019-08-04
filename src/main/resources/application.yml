@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: mybatis-plus-curd
+
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/testdb?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&autoReconnect=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    # hikari ���ӳ�  https://blog.csdn.net/X5fnncxzq4/article/details/80649679
+    hikari:
+      # �Զ��ύ
+      auto-commit: true
+      connection-test-query: SELECT 1
+      # �ȴ����ӳط������ӵ����ʱ�������룩���������ʱ����û���õ���������SQLException�� Ĭ��:30��
+      # �������� connect-time 10 s
+      connection-timeout: 9000
+      # һ������idle״̬�����ʱ�������룩����ʱ���ͷţ�retired����Ĭ��:10����
+      idle-timeout: 600000
+      # һ�����ӵ�����ʱ�������룩����ʱ����û��ʹ�����ͷţ�retired����Ĭ��:30���� 1800000ms���������ñ����ݿⳬʱʱ����60�룬�ο�MySQL wait_timeout 7200s ������# һ�����ӵ�����ʱ�������룩����ʱ����û��ʹ�����ͷţ�retired����Ĭ��:30���� 1800000ms���������ñ����ݿⳬʱʱ����60�룬�ο�MySQL wait_timeout������show variables like '%timeout%';�� -->  �� -->
+      max-lifetime: 1800000
+      # ���ӳ�������������������ȱʡֵ��10���Ƽ��Ĺ�ʽ��((core_count * 2) + effective_spindle_count)
+      maximum-pool-size: 15
+      # ��С������
+      minimum-idle: 10
+      # ���ӳ�����
+      pool-name: DemoHikariCP
+  freemarker:
+    template-loader-path: classpath:/templates/
+    cache: false
+    charset: UTF-8
+    check-template-location: true
+    content-type: text/html
+    expose-request-attributes: true
+    expose-session-attributes: true
+    request-context-attribute: request
+    suffix: .ftl
+
+mybatis-plus:
+  # MyBaits ������ɨ��·����ͨ�������Կ��Ը����е���ע�����
+  type-aliases-package: com.hld.entity
+  # ��������� typeAliasesPackage һ��ʹ�ã���������˸����ԣ��������ɨ��·�����Ը�����Ϊ���������� ��
+  type-aliases-super-type: java.lang.Object
+  configuration:
+    # ������ûὫִ�е�sql��ӡ�������ڿ�������Ե�ʱ�������
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # �շ��»���ת��
+    map-underscore-to-camel-case: true
+    # ���õĻ����ȫ�ֿ���
+    cache-enabled: true
+    # ��ʱ���صĿ���
+    lazy-loading-enabled: true
+    # �����Ļ�����ʱ����һ������ʱ����ظö���ȫ�����ԣ��������������
+    multiple-result-sets-enabled: true
+    use-generated-keys: true
+    default-statement-timeout: 60
+    default-fetch-size: 100
